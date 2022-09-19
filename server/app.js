@@ -5,9 +5,10 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(express.json());
 const PORT = 8080;
-const userroutes = require("./Routes/register");
 
-const User = require("./models/registerSchema");
+const userroutes = require("./Routes/register");
+const loginroutes = require("./Routes/login");
+const registerschema = require("./models/registerschema");
 ///connecting to mongo
 const mongoose = require("mongoose");
 mongoose.connect(
@@ -21,7 +22,7 @@ mongoose.connect(
   }
 );
 app.use("/register", userroutes);
-
+app.use("/login", loginroutes);
 app.listen(PORT, () => {
   console.log(`listening at port :${PORT}`);
 });

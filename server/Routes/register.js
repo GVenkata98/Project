@@ -2,14 +2,14 @@ const { response } = require("express");
 const express = require("express");
 const app = express();
 const router = express.Router();
-const User = require("../models/registerSchema");
+const registerSchema = require("../models/registerschema");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 
 //user registration
 router.get("/", async (req, res) => {
   try {
-    const data = await User.find();
+    const data = await registerSchema.find();
     res.json({
       message: "success",
       data,
@@ -34,8 +34,8 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
       const { phonenumber, email, password } = req.body;
-      const existeduser = await User.findOne({ email });
-      const number = await User.findOne({ phonenumber });
+      const existeduser = await registerSchema.findOne({ email });
+      const number = await registerSchema.findOne({ phonenumber });
       // if (existeduser&&number) {
       //   return res.status(400).json({
       //     status: "registration failed",
@@ -62,7 +62,7 @@ router.post(
           });
         }
         console.log(hash);
-        const users = await User.create({
+        const users = await registerSchema.create({
           ...req.body,
           password: hash,
         });
