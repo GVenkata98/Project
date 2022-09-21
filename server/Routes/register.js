@@ -36,6 +36,7 @@ router.post(
       const { phonenumber, email, password } = req.body;
       const existeduser = await registerSchema.findOne({ email });
       const number = await registerSchema.findOne({ phonenumber });
+
       // if (existeduser&&number) {
       //   return res.status(400).json({
       //     status: "registration failed",
@@ -45,14 +46,14 @@ router.post(
       console.log(existeduser);
       if (existeduser) {
         return res.status(400).json({
-          status: "registration failed",
-          message: "email already used",
+          status: "failed",
+          emailmessage: "Email already used",
         });
       }
       if (number) {
         return res.status(400).json({
-          status: "registration failed",
-          message: "number already used",
+          status: "failed",
+          numbermessage: "Phonenumber already used",
         });
       }
       bcrypt.hash(password, 10, async (err, hash) => {

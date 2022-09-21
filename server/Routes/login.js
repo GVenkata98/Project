@@ -20,18 +20,21 @@ router.post("/", async (req, res) => {
     if (!data) {
       return res.status(400).json({
         status: "failed",
-        message: "User is not registerd",
+        messageuser: "User is not registerd",
       });
     }
-
+    console.log(password, data.password);
     bcrypt.compare(password, data.password, function (err, result) {
-      if (err) {
+      console.log("inside");
+      if (!result) {
+        console.log(result, err);
+
         return res.status(500).json({
           status: "failed",
-          message: err.message,
+          messagepass: "wrong password",
         });
       }
-
+      console.log(password, data.password);
       if (result) {
         const token = jwt.sign(
           {
