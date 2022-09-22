@@ -34,9 +34,9 @@ function Register() {
       .then((response) => setResponse(response));
     console.log(response);
     console.log(response.status);
-    if (response.status != "failed") {
-      navigate("/");
-    }
+    // if (response.status != "failed") {
+    //   navigate("/");
+    // }
   };
   console.log(response);
   return (

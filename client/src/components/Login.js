@@ -4,8 +4,9 @@ import Header from "./Header";
 import Footer from "./FOOTER/footer";
 import Endfooter from "./FOOTER/Endfooter";
 import Scheme from "./Scheme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [response, setResponse] = useState("");
   const [logindata, updatedlogindata] = useState("");
   const handlesubmit = (e) => {
@@ -21,8 +22,9 @@ const Login = () => {
     })
       .then((data) => data.json())
       .then((response) => setResponse(response));
-    console.log(response);
-    console.log(response.status);
+    console.log(response.token);
+    localStorage.setItem("token", response.token);
+    navigate("/createorders");
     // if (response.status != "failed") {
     //   navigate("/");
     // }
@@ -60,6 +62,16 @@ const Login = () => {
                     })
                   }
                 />
+                <p
+                  style={{
+                    color: "red",
+                    margin: "-22px",
+                    fontSize: "12px",
+                    marginLeft: "220px",
+                  }}
+                >
+                  {response.messageuser}
+                </p>
                 <br />
                 <label className="firstpassword">Password</label>
                 <br />
@@ -71,6 +83,16 @@ const Login = () => {
                     updatedlogindata({ ...logindata, password: e.target.value })
                   }
                 />
+                <p
+                  style={{
+                    color: "red",
+                    margin: "-22px",
+                    fontSize: "12px",
+                    marginLeft: "220px",
+                  }}
+                >
+                  {response.messagepass}
+                </p>
                 <br />
                 <span className="firstforget">Forget Password?</span>
                 <br />

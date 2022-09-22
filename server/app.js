@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const secret = "SUCCESS";
 const app = express();
 app.use(cors());
 var bodyParser = require("body-parser");
