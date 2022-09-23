@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const orderSchema = new mongoose.Schema(
   {
-    washtype1: {
+    washtype:
       // shirts: {
       //   quantity: { type: Number, default: 0 },
       //   washing: { type: Boolean, defalut: false },
@@ -52,21 +52,20 @@ const orderSchema = new mongoose.Schema(
       //   drying: { type: Boolean, defalut: 0 },
       //   chemical_wash: { type: Boolean, defalut: 0 },
       // },
-      type: Array,
-    },
-    totalquantity: Number,
-    totalprice: Number,
+      Array,
+    totalquantity: String,
+    totalprice: String,
     orderdate: {
       type: String,
     },
     subtotalcost: Number,
     totalcost: Number,
-    orderid: String,
+  
     user: { type: Schema.Types.ObjectId, ref: "registerschema" },
     storelocation: {
-      required: true,
       type: String,
     },
+    phonenumber: String,
   },
 
   { timestamps: true }

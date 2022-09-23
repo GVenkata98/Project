@@ -15,54 +15,84 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const order = req.body.washtype;
-  const cloth = [
-    "shirts",
-    "tshirts",
-    "trousers",
-    "jeans",
-    "boxers",
-    "joggers",
-    "others",
-  ];
-  const final = [];
-  let totalcost = 0;
+  const order = req.body;
+  console.log(order);
+  const date = new Date();
+  const n = date.toDateString();
+  const time = date.toLocaleTimeString();
+  let k = n.split(" ");
   let totalquantity = 0;
-  order.forEach((element, i) => {
-    var arr = [];
-    if (element.m || element.i || element.t || element.b) {
-      totalcost = totalcost + element.tot;
-      totalquantity = totalquantity + element.sc;
-      if (element.m) {
-        arr.push("machining");
-      }
-      if (element.i) {
-        arr.push("ironing");
-      }
-      if (element.t) {
-        arr.push("towel");
-      }
-      if (element.b) {
-        arr.push("bleech");
-      }
-      const dataman = arr.join(",");
-      arr = [];
-      arr.push(cloth[i]);
-      arr.push(dataman);
-      arr.push(element.sc);
-      arr.push(element.bill);
-      arr.push(element.tot);
-      final.push(arr);
-    }
-  });
+  let totalcost = 0;
+  const created = (k[1], k[2], k[3], time);
 
+  // let order = {
+  //   shirts: {
+  //     quantity: 5,
+  //     washing: false,
+  //     drycleaning: true,
+  //     ironing: false,
+  //     chemicalcleaning: false,
+  //     bill: 10,
+  //     subtotal: 50,
+  //   },
+  //   tshirts: {
+  //     quantity: 10,
+  //     ironing: true,
+  //     washing: true,
+  //     drycleaning: true,
+  //     chemicalcleaning: true,
+  //     bill: 10,
+  //     subtotal: 100,
+  //   },
+  //   jeans: {
+  //     quantity: 5,
+  //     washing: false,
+  //     drycleaning: true,
+  //     ironing: false,
+  //     chemicalcleaning: true,
+  //     bill: 15,
+  //     subtotal: 75,
+  //   },
+  // };
+  let arr = [];
+
+  for (let value in order) {
+    let subarr = [];
+    let appenddata = "";
+    if (order[value].quantity) {
+      if (order[value].washing) {
+        appenddata = appenddata + "washing,";
+      }
+      if (order[value].ironing) {
+        appenddata = appenddata + "ironing,";
+      }
+      if (order[value].drycleaning) {
+        appenddata = appenddata + "drycleaning,";
+      }
+      if (order[value].chemicalcleaning) {
+        appenddata = appenddata + "chemicalwash,";
+      }
+      subarr.push(value);
+
+      subarr.push(appenddata);
+      subarr.push(order[value].quantity);
+      subarr.push(order[value].bill);
+      subarr.push(order[value].subtot);
+      arr.push(subarr);
+    }
+    totalcost = totalcost + order[value].subtot;
+    totalquantity = totalquantity + order[value].quantity;
+    console.log(arr);
+    console.log(totalquantity, totalcost);
+  }
   const orders = await storeorder.create({
-    washtype1: final,
-    totalquantity,
+    orders: req.body,
+    totalquantity: totalquantity,
     subtotalcost: totalcost,
     totalcost: totalcost + 90,
-    orderdate: Date.now(),
-    storelocation: "banglore",
+    orderdate: created,
+    storelocation: "vizag",
+    phonenumber: "8753885949",
   });
   res.status(200).json({
     status: "Success",

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./login.css";
 import Header from "./Header";
 import Footer from "./FOOTER/footer";
@@ -9,26 +10,36 @@ const Login = () => {
   const navigate = useNavigate();
   const [response, setResponse] = useState("");
   const [logindata, updatedlogindata] = useState("");
-  const handlesubmit = (e) => {
+  const handlesubmit = async (e) => {
     e.preventDefault();
-    console.log(logindata);
-    fetch("http://localhost:8080/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(logindata),
-    })
-      .then((data) => data.json())
-      .then((response) => setResponse(response));
-    console.log(response.token);
-    localStorage.setItem("token", response.token);
-    navigate("/createorders");
+    // console.log(logindata);
+    // await fetch("http://localhost:8080/login", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(logindata),
+    // })
+    //   .then((data) => data.json())
+    //   .then((response) => setResponse(response));
+    // console.log(response, 12334);
+    // console.log(response.token);
+    // localStorage.setItem("token", response.token);
+
+    // navigate("/createorders");
     // if (response.status != "failed") {
     //   navigate("/");
     // }
+    const incomingdata = await axios
+      .post("http://localhost:8080/login", logindata)
+      .then((response) => setResponse(response));
+    console.log(response);
+    console.log(response.data.token);
+    localStorage.setItem("token", response.data.token);
+    navigate("/createorders");
   };
+
   return (
     <div>
       <Header />
@@ -70,7 +81,7 @@ const Login = () => {
                     marginLeft: "220px",
                   }}
                 >
-                  {response.messageuser}
+                  {/* {incomingdata.data.messageuser} */}
                 </p>
                 <br />
                 <label className="firstpassword">Password</label>
@@ -91,7 +102,7 @@ const Login = () => {
                     marginLeft: "220px",
                   }}
                 >
-                  {response.messagepass}
+                  {/* {incomingdata.data.messagepass} */}
                 </p>
                 <br />
                 <span className="firstforget">Forget Password?</span>
