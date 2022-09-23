@@ -11,5 +11,5 @@ const registerSchema = new mongoose.Schema({
   password: { type: String, required: true },
 });
 
-const User = mongoose.model("Userlog", registerSchema);
+const User = mongoose.model("User", registerSchema);
 module.exports = User;
