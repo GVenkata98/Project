@@ -6,7 +6,7 @@ import Scheme from "./components/Scheme";
 import Login from "./components/Login";
 import Createorders from "./components/CreateOrder";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import Jumporders from "./Jumporders";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +14,7 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/createorders" element={<Createorders />} />
+        <Route exact path="/order" element={<Jumporders />} />
       </Routes>
     </BrowserRouter>
   );

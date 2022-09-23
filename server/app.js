@@ -15,7 +15,7 @@ const registerschema = require("./models/registerschema");
 ///connecting to mongo
 const mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://groupone:groupone@cluster0.ahtimid.mongodb.net/group1?retryWrites=true&w=majority",
+  "mongodb+srv://groupone:groupone@cluster0.nuioubb.mongodb.net/?retryWrites=true&w=majority",
   (err) => {
     if (err) {
       console.log(err);
@@ -41,7 +41,7 @@ app.use("/orders", (req, res, next) => {
       console.log(decoded);
       const user = await registerschema.findOne({ _id: decoded.data });
       console.log(user);
-      req.user = user._id;
+      req.body.user = user._id;
       console.log(user);
       console.log(req.user);
       next();
