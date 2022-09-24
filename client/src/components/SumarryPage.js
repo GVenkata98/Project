@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import "./SumarryPage.css";
-import SucessfullModal from "./SucessfullModal";
+
 import GsumOrderRow from "./GsumOrderRow";
+import tickpic from "../images/tick.png";
 
 export default function SumarryPage({
   GcancelSummary,
@@ -85,11 +86,10 @@ export default function SumarryPage({
             </tr>
           </thead>
           <tbody>
-            {/* {data!=0&&} */}
             <tr>
-              <td>Jp nagar</td>
-              <td>Near Phone booth, 10road</td>
-              <td>910004523</td>
+              <td>Hydrabad</td>
+              <td>Near Charminar</td>
+              <td>987654321</td>
             </tr>
           </tbody>
         </table>
@@ -164,17 +164,20 @@ export default function SumarryPage({
         </div>
         <div style={{ fontSize: "12px", color: "#3B3737" }}>Address</div>
         <div className="GprevsumaddressCont">
-          <div className="Gprevsumaddress">
-            <div>
+          <div className="Gprevsumaddressmain">
+            <div className="homeclassse">
               <b>Home</b>
+              <div>
+                <img className="tickimage" src={tickpic} alt="selected" />
+              </div>
             </div>
-            <div>#223, 10th road, Jp Nagar, Bangalore</div>
+            <div>1-264, 5th street, Hyd, Telangana</div>
           </div>
           <div className="Gprevsumaddress">
             <div>
               <b>other</b>
             </div>
-            <div>ft 202,shanti nnagar, Bangalore</div>
+            <div>1-56,6th street ,vizag,Andhra</div>
           </div>
           <div className="GaddNewAddress">
             <div>
@@ -184,9 +187,14 @@ export default function SumarryPage({
         </div>
       </div>
       <div className="GoviConfirmButton">
-        <button className="GbuttonforOrder" onClick={() => GconfirmOrderSum()}>
-          Confirm
-        </button>
+        {totalprice != 0 && (
+          <button
+            className="GbuttonforOrder"
+            onClick={() => GconfirmOrderSum()}
+          >
+            Confirm
+          </button>
+        )}
       </div>
     </div>
   );
