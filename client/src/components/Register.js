@@ -36,8 +36,8 @@ function Register() {
       // .then((data) => data.json())
       .then((response) => setResponse(response))
       .catch((response) => setResponse(response));
-    console.log(response.response.data.emailmessage);
-    console.log("hello");
+    // console.log(response.response.data.emailmessage);
+    // console.log("hello");
     if (response.status == 201) {
       alert("registered succesfully");
       navigate("/");
@@ -102,7 +102,7 @@ function Register() {
                       marginLeft: "170px",
                     }}
                   >
-                    {response.response.data.numbermessage}
+                    {/* {response.response.data.numbermessage} */}
                   </p>
 
                   <br />
@@ -146,7 +146,7 @@ function Register() {
                       marginLeft: "200px",
                     }}
                   >
-                    {response.response.data.emailmessage}
+                    {/* {response.response.data.emailmessage} */}
                   </p>
                   <br />
                   <label className="registerlabel">State</label>

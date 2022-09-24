@@ -21,6 +21,13 @@ router.get("/:id" , async (req, res) =>{
     vieworders
   }) ;
 });
+router.delete("/:id" , async(req,res)=>{
+  await storeorder.findByIdAndDelete(req.params.id)
+
+  res.status(200).json({
+    status: "Success" ,
+  })
+})
 
 router.post("/", async (req, res) => {
   try {

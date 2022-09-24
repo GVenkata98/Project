@@ -135,6 +135,8 @@ const CreateOrder = () => {
         ironing: count1.i,
         drycleaning: count1.t,
         chemicalcleaning: count1.b,
+        bill: count1.bill,
+        subtot: count1.total,
       },
       tshirts: {
         quantity: tshirtQunatity,
@@ -142,6 +144,8 @@ const CreateOrder = () => {
         ironing: count2.i,
         drycleaning: count2.t,
         chemicalcleaning: count2.b,
+        bill: count2.bill,
+        subtot: count2.total,
       },
       trousers: {
         quantity: trousersQunatity,
@@ -149,6 +153,8 @@ const CreateOrder = () => {
         ironing: count3.i,
         drycleaning: count3.t,
         chemicalcleaning: count3.b,
+        bill: count3.bill,
+        subtot: count3.total,
       },
       jeans: {
         quantity: jeansQunatity,
@@ -156,6 +162,8 @@ const CreateOrder = () => {
         ironing: count4.i,
         drycleaning: count4.t,
         chemicalcleaning: count4.b,
+        bill: count4.bill,
+        subtot: count4.total,
       },
       boxers: {
         quantity: boxersQunatity,
@@ -163,6 +171,8 @@ const CreateOrder = () => {
         ironing: count5.i,
         drycleaning: count5.t,
         chemicalcleaning: count5.b,
+        bill: count5.bill,
+        subtot: count5.total,
       },
       joggers: {
         quantity: joggersQunatity,
@@ -170,6 +180,8 @@ const CreateOrder = () => {
         ironing: count6.i,
         drycleaning: count6.t,
         chemicalcleaning: count6.b,
+        bill: count6.bill,
+        subtot: count6.total,
       },
       others: {
         quantity: othersQunatity,
@@ -177,6 +189,8 @@ const CreateOrder = () => {
         ironing: count7.i,
         drycleaning: count7.t,
         chemicalcleaning: count7.b,
+        bill: count7.bill,
+        subtot: count7.total,
       },
     };
 
@@ -188,13 +202,11 @@ const CreateOrder = () => {
   const GconfirmOrderSum = async () => {
     let gSenddata = {
       ...gOrderdata,
-      storelocation: "JP Nagar",
-      city: "Banglore",
     };
 
     console.log(gSenddata, "g send data");
 
-    const res = await fetch("http://localhost:8080/api/v1/posts", {
+    const res = await fetch("http://localhost:8080/orders", {
       method: "POST",
       headers: {
         "content-type": "application/json",

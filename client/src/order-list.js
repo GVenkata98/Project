@@ -2,11 +2,14 @@ import "./Jumporder.css" ;
 import{Link}  from "react-router-dom";
 import React , {useState , useEffect} from 'react';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function List(props){
     const currToken = localStorage.getItem("token");
-    const [viewData , setViewData] = useState("");
+    const [viewdata , setViewdata] = useState("");
     const [orderid , setOrderid] = useState("");
+    const [abcd , setabcd] = useState([["","","","",""]]);
+    const navigate = useNavigate();
     const cancelorder = (e) =>{
       e = e.target
       let id = e.parentNode.parentNode.children[0].innerText;
@@ -14,31 +17,52 @@ function List(props){
         // console.log(orderid)
         // console.log(id);
     }
-    const view = async (e)=>{
+    const view = async(e)=>{
         // e = e.target;
-        let id;
+        let id , i =0;
         let val = e.target.value;
         if(val== undefined){
             id = e.target.parentNode.parentNode.parentNode.children[0].innerText;
-        }else{ id = await e.target.parentNode.parentNode.children[0].innerText;}
+        }else{ id = e.target.parentNode.parentNode.children[0].innerText;}
         // console.log(val);
        
         console.log( "Id is:" , id , "heloooooo....");
-        await axios
+       const abc = await axios
             .get(`http://localhost:8080/orders/${id}`, {
                 headers: {
                 Authorization: "test " + currToken,
                 },
             })
-            .then((res) => {
-                setViewData(res.data.vieworders[0].washtype[0]);
-                // console.log(res.data.vieworders[0].washtype);
-                // res.data.vieworders[0].washtype[0].map((key) =>{console.log(key , "123")})
-                // console.log( "viewdata" , viewData , "1....1");
-            });
+            console.log(abc.data.vieworders);
+            setViewdata(abc.data.vieworders);
+            setabcd(...abc.data.vieworders.washtype);
+            console.log(abcd , "134568");
+            // .then(async(res) => {
+            //     // setViewdata(res.data.vieworders[0]);
+            //     // let da = res.data.vieworders[0];
+
+            //     console.log(res.data.vieworders[0].washtype);
+                
+            //     // console.log(da)
+            //     res.data.vieworders[0].washtype.map((key) =>{console.log(key , "321")})
+            //   viewdata.washtype.map((key) =>{console.log(key , "123")})
+            //     // console.log( "viewdata" , viewdata.subtotalcost , "1....1");
+            //     setViewdata(res.data.vieworders[0])
+            // });
     };
 
-    const procced = ()=>{}
+    const procced = (e)=>{
+      // e = e.target
+      // let id = e.parentNode.parentNode.parentNode.children[0].innerText;
+      // console.log(orderid, "hiii....");
+      axios
+      .delete(`http://localhost:8080/orders/${orderid}`, {
+          headers: {
+          Authorization: "test " + currToken,
+          },
+      });
+      // navigate("/order")
+    }
     return(
     <>
         <div className="main-header">
@@ -124,7 +148,9 @@ function List(props){
                     Are you sure want to cancel the <br></br>Order No: {orderid}
                   </div>
                   <div>
+                    <Link to={"/order"} >
                     <button type="button" class="btn btn-primary" id='procced-button' data-bs-dismiss="modal" onClick={procced}>Procced</button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -157,25 +183,25 @@ function List(props){
                     <div ><b>Order Details</b></div>
                     <div>
                         <table>
-                           {/* {viewData.map((value , key) =>{
+                           {/* {viewdata.washtype.map((element) => {                                                  
                             return(
                                 <tr className="order-list">
-                                    <td>{value[0]}</td>
-                                    <td>{value[1]}</td>
-                                    <td><b>{value[2]} x {value[3]}</b></td>
-                                    <td className="price">{value[4]}</td>
+                                    <td>{element[0]}</td>
+                                    <td>{element[1]}</td>
+                                    <td><b>{element[2]} x {element[3]}</b></td>
+                                    <td className="price">{element[4]}</td>
                                 </tr>                        
                             )
-                            })} 
+                            })}  */}
                             <tr id='order-list'>
-                            <td></td> <td></td> <td>sub total:</td> <td>{viewData.subtotalcost}</td>
+                            <td></td> <td></td> <td>sub total:</td> <td>{viewdata.subtotalcost}</td>
                             </tr>
                             <tr id='order-list'>
                             <td></td> <td></td> <td>pick up charge</td> <td>90</td>
                             </tr>
                             <tr id= 'total' >
-                            <td></td> <td></td> <td style= {{fontSize:"18px"}}>total:</td> <td className='total-price'><b>{viewData.totalcost} </b></td>
-                            </tr> */}
+                            <td></td> <td></td> <td style= {{fontSize:"18px"}}>total:</td> <td className='total-price'><b>{viewdata.totalcost} </b></td>
+                            </tr>
                             {/* <tr id='order-list'>
                             <td>shirts</td>
                             <td>washing,ironing</td>
