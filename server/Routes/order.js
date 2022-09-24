@@ -6,7 +6,7 @@ app.use(express.json());
 const storeorder = require("../models/orderSchema");
 const router = express.Router();
 router.get("/", async (req, res) => {
-  const orders = await storeorder.find();
+  const orders = await storeorder.find({user:req.body.user});
 
   res.status(200).json({
     status: "Success",
@@ -92,9 +92,9 @@ router.post("/", async (req, res) => {
         subarr.push(appenddata);
         subarr.push(order[value].quantity);
         subarr.push(order[value].bill);
-        subarr.push(order[value].subtot);
+        subarr.push(subarr[2]*subarr[3]);
         arr.push(subarr);
-        totalcost = totalcost + order[value].subtot;
+        totalcost = totalcost + subarr[4];
         totalquantity = totalquantity + order[value].quantity;
       }
     }
@@ -121,9 +121,11 @@ router.post("/", async (req, res) => {
       phonenumber: "8753885949",
       user,
     });
+    console.log(orders , "112345655zsfzs");
     res.status(200).json({
       status: "Success",
       orders,
+
     });
   } catch (e) {
     res.json({

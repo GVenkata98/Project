@@ -9,7 +9,6 @@ const bcrypt = require("bcrypt");
 router.post("/", async (req, res) => {
   try {
     const { userdetails, password } = req.body;
-
     const userdatausingemail = await User.findOne({ email: userdetails });
     const userdatausingphonnumber = await User.findOne({
       phonenumber: userdetails,
@@ -19,9 +18,9 @@ router.post("/", async (req, res) => {
     let data = userdatausingphonnumber || userdatausingemail;
     console.log(data);
     if (!data) {
-      return res.status(400).json({
+      return res.status(200).json({
         status: "failed",
-        messageuser: "User is not registerd",
+        message: "User is not registerd",
       });
     }
     console.log(password, data.password);
@@ -29,10 +28,9 @@ router.post("/", async (req, res) => {
       console.log("inside");
       if (!result) {
         console.log(result, err);
-
-        return res.status(500).json({
+        return res.status(200).json({
           status: "failed",
-          messagepass: "wrong password",
+          message: "wrong password",
         });
       }
       console.log(password, data.password);
@@ -53,11 +51,10 @@ router.post("/", async (req, res) => {
       }
     });
   } catch (e) {
-    res.status(400).json({
+    res.status(200).json({
       status: "Login failed",
       message: e.message,
     });
   }
 });
-
 module.exports = router;
