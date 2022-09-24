@@ -2,7 +2,7 @@ const { response } = require("express");
 const express = require("express");
 const app = express();
 const router = express.Router();
-const registerSchema = require("../models/registerschema");
+const registerSchema = require("../models/registerSchema");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 //user registration

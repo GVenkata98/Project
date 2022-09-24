@@ -16,7 +16,7 @@ var jwt = require("jsonwebtoken");
 const userroutes = require("./Routes/register");
 const loginroutes = require("./Routes/login");
 const ordersroute = require("./Routes/order");
-const registerschema = require("./models/registerschema");
+const registerschema = require("./models/registerSchema");
 ///connecting to mongo
 const mongoose = require("mongoose");
 mongoose.connect(

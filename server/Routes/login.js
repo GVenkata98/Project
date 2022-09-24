@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/registerschema");
+const User = require("../models/registerSchema");
 var jwt = require("jsonwebtoken");
 const secret = "SUCCESS";
 const app = express();
