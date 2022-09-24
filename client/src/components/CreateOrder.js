@@ -29,7 +29,6 @@ const CreateOrder = () => {
   const gettoken = localStorage.getItem("token");
   console.log(gettoken);
   const token = `test ${gettoken}`;
-
   const [orderSucessStyle, setorderSucessStyle] = useState("none");
 
   const [count1, setCount1] = useState({
@@ -136,8 +135,6 @@ const CreateOrder = () => {
         ironing: count1.i,
         drycleaning: count1.t,
         chemicalcleaning: count1.b,
-        bill: count1.bill,
-        subtot: count1.total,
       },
       tshirts: {
         quantity: tshirtQunatity,
@@ -145,8 +142,6 @@ const CreateOrder = () => {
         ironing: count2.i,
         drycleaning: count2.t,
         chemicalcleaning: count2.b,
-        bill: count2.bill,
-        subtot: count2.total,
       },
       trousers: {
         quantity: trousersQunatity,
@@ -154,8 +149,6 @@ const CreateOrder = () => {
         ironing: count3.i,
         drycleaning: count3.t,
         chemicalcleaning: count3.b,
-        bill: count3.bill,
-        subtot: count3.total,
       },
       jeans: {
         quantity: jeansQunatity,
@@ -163,8 +156,6 @@ const CreateOrder = () => {
         ironing: count4.i,
         drycleaning: count4.t,
         chemicalcleaning: count4.b,
-        bill: count4.bill,
-        subtot: count4.total,
       },
       boxers: {
         quantity: boxersQunatity,
@@ -172,8 +163,6 @@ const CreateOrder = () => {
         ironing: count5.i,
         drycleaning: count5.t,
         chemicalcleaning: count5.b,
-        bill: count5.bill,
-        subtot: count5.total,
       },
       joggers: {
         quantity: joggersQunatity,
@@ -181,8 +170,6 @@ const CreateOrder = () => {
         ironing: count6.i,
         drycleaning: count6.t,
         chemicalcleaning: count6.b,
-        bill: count7.bill,
-        subtot: count7.total,
       },
       others: {
         quantity: othersQunatity,
@@ -190,8 +177,6 @@ const CreateOrder = () => {
         ironing: count7.i,
         drycleaning: count7.t,
         chemicalcleaning: count7.b,
-        bill: count7.bill,
-        subtot: count7.total,
       },
     };
 
@@ -203,11 +188,13 @@ const CreateOrder = () => {
   const GconfirmOrderSum = async () => {
     let gSenddata = {
       ...gOrderdata,
+      storelocation: "JP Nagar",
+      city: "Banglore",
     };
 
     console.log(gSenddata, "g send data");
 
-    const res = await fetch("http://localhost:8080/orders", {
+    const res = await fetch("http://localhost:8080/api/v1/posts", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -220,7 +207,22 @@ const CreateOrder = () => {
     setGSummaryStyle("none");
     setorderSucessStyle("block");
   };
+  const rowTotal = (prvTotal, state, quant) => {
+    console.log(prvTotal, state, quant);
+    let tempTotal;
+    if (quant == 0 || !quant) {
+      return 0;
+    }
+    if (state) {
+      tempTotal = prvTotal - 5;
+    } else {
+      tempTotal = prvTotal + 5;
+    }
 
+    return tempTotal;
+  };
+
+  console.log("afd", count3.sc);
   return (
     <>
       <OrderHeader />
@@ -245,14 +247,17 @@ const CreateOrder = () => {
                   <th scope="col"></th>
                   <th scope="col"></th>
                   <th scope="col">Price</th>
-                  <th scope="col">ResetButton</th>
+                  <th scope="col">Reset</th>
                 </tr>
               </thead>
               {/* start from here */}
               <tr>
                 <td>
                   <div className="CimageConatiner">
-                    <img className="Cimage" src={shirt} />
+                    <div>
+                      <img className="Cimage" src={shirt} />
+                    </div>
+
                     <div className="CnameOf">
                       <h6 className="">Shirt</h6>
                       <p className="">
@@ -267,22 +272,25 @@ const CreateOrder = () => {
                     onChange={(e) => {
                       setCount1({ ...count1, sc: e.target.value });
                     }}
-                    type="text"
+                    type="number"
+                    min="0"
                     value={count1.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count1.sc &&
                       setCount1({
                         ...count1,
-                        m: true,
+                        m: !count1.m,
                         btn: 1,
                         bill: count1.bill + 1 * 5,
-                        total: (count1.bill + 5) * count1.sc,
+                        total: rowTotal(count1.total, count1.m, count1.sc),
                       })
                     }
                     id="icon1"
@@ -293,12 +301,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count1.sc &&
                       setCount1({
                         ...count1,
-                        i: true,
+                        i: !count1.i,
                         btn: 1,
                         bill: count1.bill + 1 * 5,
-                        total: (count1.bill + 5) * count1.sc,
+                        total: rowTotal(count1.total, count1.i, count1.sc),
                       })
                     }
                     id="icon2"
@@ -309,12 +318,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count1.sc &&
                       setCount1({
                         ...count1,
-                        t: true,
+                        t: !count1.t,
                         btn: 1,
                         bill: count1.bill + 1 * 5,
-                        total: (count1.bill + 5) * count1.sc,
+                        total: rowTotal(count1.total, count1.t, count1.sc),
                       })
                     }
                     id="icon3"
@@ -325,12 +335,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count1.sc &&
                       setCount1({
                         ...count1,
-                        b: true,
+                        b: !count1.b,
                         btn: 1,
                         bill: count1.bill + 1 * 5,
-                        total: (count1.bill + 5) * count1.sc,
+                        total: rowTotal(count1.total, count1.b, count1.sc),
                       })
                     }
                     id="icon4"
@@ -338,35 +349,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count1.btn === 0 ? (
+                  {!count1.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count1.sc} x {count1.bill} ={" "}
+                      {count1.sc} x {count1.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count1.total}
+                        {count1.total * count1.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count1.btn }}
-                    onClick={() =>
-                      setCount1({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count1.sc ? (
+                    <button
+                      style={{ opacity: count1.btn }}
+                      onClick={() =>
+                        setCount1({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end here */}
@@ -383,28 +398,32 @@ const CreateOrder = () => {
                     </div>
                   </div>
                 </td>
+
                 <td>
                   <input
                     className="qunatity"
-                    onChange={(e) =>
-                      setCount2({ ...count2, sc: e.target.value })
-                    }
-                    type="text"
+                    onChange={(e) => {
+                      setCount2({ ...count2, sc: e.target.value });
+                    }}
+                    type="number"
+                    min="0"
                     value={count2.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count2.sc &&
                       setCount2({
                         ...count2,
-                        m: true,
+                        m: !count2.m,
                         btn: 1,
                         bill: count2.bill + 1 * 5,
-                        total: (count2.bill + 5) * count2.sc,
+                        total: rowTotal(count2.total, count2.m, count2.sc),
                       })
                     }
                     id="icon1"
@@ -415,12 +434,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count2.sc &&
                       setCount2({
                         ...count2,
-                        i: true,
+                        i: !count2.i,
                         btn: 1,
                         bill: count2.bill + 1 * 5,
-                        total: (count2.bill + 5) * count2.sc,
+                        total: rowTotal(count2.total, count2.i, count2.sc),
                       })
                     }
                     id="icon2"
@@ -431,12 +451,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count2.sc &&
                       setCount2({
                         ...count2,
-                        t: true,
+                        t: !count2.t,
                         btn: 1,
                         bill: count2.bill + 1 * 5,
-                        total: (count2.bill + 5) * count2.sc,
+                        total: rowTotal(count2.total, count2.t, count2.sc),
                       })
                     }
                     id="icon3"
@@ -447,12 +468,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count2.sc &&
                       setCount2({
                         ...count2,
-                        b: true,
+                        b: !count2.b,
                         btn: 1,
                         bill: count2.bill + 1 * 5,
-                        total: (count2.bill + 5) * count2.sc,
+                        total: rowTotal(count2.total, count2.b, count2.sc),
                       })
                     }
                     id="icon4"
@@ -460,35 +482,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count2.btn === 0 ? (
+                  {!count2.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count2.sc} x {count2.bill} ={" "}
+                      {count2.sc} x {count2.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count2.total}
+                        {count2.total * count2.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count2.btn }}
-                    onClick={() =>
-                      setCount2({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count2.sc ? (
+                    <button
+                      style={{ opacity: count2.btn }}
+                      onClick={() =>
+                        setCount2({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end2 */}
@@ -508,25 +534,28 @@ const CreateOrder = () => {
                 <td>
                   <input
                     className="qunatity"
-                    onChange={(e) =>
-                      setCount3({ ...count3, sc: e.target.value })
-                    }
-                    type="text"
+                    onChange={(e) => {
+                      setCount3({ ...count3, sc: e.target.value });
+                    }}
+                    type="number"
+                    min="0"
                     value={count3.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count3.sc &&
                       setCount3({
                         ...count3,
-                        m: true,
+                        m: !count3.m,
                         btn: 1,
                         bill: count3.bill + 1 * 5,
-                        total: (count3.bill + 5) * count3.sc,
+                        total: rowTotal(count3.total, count3.m, count3.sc),
                       })
                     }
                     id="icon1"
@@ -537,12 +566,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count3.sc &&
                       setCount3({
                         ...count3,
-                        i: true,
+                        i: !count3.i,
                         btn: 1,
                         bill: count3.bill + 1 * 5,
-                        total: (count3.bill + 5) * count3.sc,
+                        total: rowTotal(count3.total, count3.i, count3.sc),
                       })
                     }
                     id="icon2"
@@ -553,12 +583,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count3.sc &&
                       setCount3({
                         ...count3,
-                        t: true,
+                        t: !count3.t,
                         btn: 1,
                         bill: count3.bill + 1 * 5,
-                        total: (count3.bill + 5) * count3.sc,
+                        total: rowTotal(count3.total, count3.t, count3.sc),
                       })
                     }
                     id="icon3"
@@ -569,12 +600,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count3.sc &&
                       setCount3({
                         ...count3,
-                        b: true,
+                        b: !count3.b,
                         btn: 1,
                         bill: count3.bill + 1 * 5,
-                        total: (count3.bill + 5) * count3.sc,
+                        total: rowTotal(count3.total, count3.b, count3.sc),
                       })
                     }
                     id="icon4"
@@ -582,35 +614,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count3.btn === 0 ? (
+                  {!count3.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count3.sc} x {count3.bill} ={" "}
+                      {count3.sc} x {count3.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count3.total}
+                        {count3.total * count3.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count3.btn }}
-                    onClick={() =>
-                      setCount3({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count3.sc ? (
+                    <button
+                      style={{ opacity: count3.btn }}
+                      onClick={() =>
+                        setCount3({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end3 */}
@@ -630,25 +666,28 @@ const CreateOrder = () => {
                 <td>
                   <input
                     className="qunatity"
-                    onChange={(e) =>
-                      setCount4({ ...count4, sc: e.target.value })
-                    }
-                    type="text"
+                    onChange={(e) => {
+                      setCount4({ ...count4, sc: e.target.value });
+                    }}
+                    type="number"
+                    min="0"
                     value={count4.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count4.sc &&
                       setCount4({
                         ...count4,
-                        m: true,
+                        m: !count4.m,
                         btn: 1,
                         bill: count4.bill + 1 * 5,
-                        total: (count4.bill + 5) * count4.sc,
+                        total: rowTotal(count4.total, count4.m, count4.sc),
                       })
                     }
                     id="icon1"
@@ -659,12 +698,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count4.sc &&
                       setCount4({
                         ...count4,
-                        i: true,
+                        i: !count4.i,
                         btn: 1,
                         bill: count4.bill + 1 * 5,
-                        total: (count4.bill + 5) * count4.sc,
+                        total: rowTotal(count4.total, count4.i, count4.sc),
                       })
                     }
                     id="icon2"
@@ -675,12 +715,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count4.sc &&
                       setCount4({
                         ...count4,
-                        t: true,
+                        t: !count4.t,
                         btn: 1,
                         bill: count4.bill + 1 * 5,
-                        total: (count4.bill + 5) * count4.sc,
+                        total: rowTotal(count4.total, count4.t, count4.sc),
                       })
                     }
                     id="icon3"
@@ -691,12 +732,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count4.sc &&
                       setCount4({
                         ...count4,
-                        b: true,
+                        b: !count4.b,
                         btn: 1,
                         bill: count4.bill + 1 * 5,
-                        total: (count4.bill + 5) * count4.sc,
+                        total: rowTotal(count4.total, count4.b, count4.sc),
                       })
                     }
                     id="icon4"
@@ -704,35 +746,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count4.btn === 0 ? (
+                  {!count4.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count4.sc} x {count4.bill} ={" "}
+                      {count4.sc} x {count4.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count4.total}
+                        {count4.total * count4.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count4.btn }}
-                    onClick={() =>
-                      setCount4({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count4.sc ? (
+                    <button
+                      style={{ opacity: count4.btn }}
+                      onClick={() =>
+                        setCount4({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end4 */}
@@ -749,28 +795,32 @@ const CreateOrder = () => {
                     </div>
                   </div>
                 </td>
+
                 <td>
                   <input
                     className="qunatity"
-                    onChange={(e) =>
-                      setCount5({ ...count5, sc: e.target.value })
-                    }
-                    type="text"
+                    onChange={(e) => {
+                      setCount5({ ...count5, sc: e.target.value });
+                    }}
+                    type="number"
+                    min="0"
                     value={count5.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count5.sc &&
                       setCount5({
                         ...count5,
-                        m: true,
+                        m: !count5.m,
                         btn: 1,
                         bill: count5.bill + 1 * 5,
-                        total: (count5.bill + 5) * count5.sc,
+                        total: rowTotal(count5.total, count5.m, count5.sc),
                       })
                     }
                     id="icon1"
@@ -781,12 +831,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count5.sc &&
                       setCount5({
                         ...count5,
-                        i: true,
+                        i: !count5.i,
                         btn: 1,
                         bill: count5.bill + 1 * 5,
-                        total: (count5.bill + 5) * count5.sc,
+                        total: rowTotal(count5.total, count5.i, count5.sc),
                       })
                     }
                     id="icon2"
@@ -797,12 +848,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count5.sc &&
                       setCount5({
                         ...count5,
-                        t: true,
+                        t: !count5.t,
                         btn: 1,
                         bill: count5.bill + 1 * 5,
-                        total: (count5.bill + 5) * count5.sc,
+                        total: rowTotal(count5.total, count5.t, count5.sc),
                       })
                     }
                     id="icon3"
@@ -813,12 +865,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count5.sc &&
                       setCount5({
                         ...count5,
-                        b: true,
+                        b: !count5.b,
                         btn: 1,
                         bill: count5.bill + 1 * 5,
-                        total: (count5.bill + 5) * count5.sc,
+                        total: rowTotal(count5.total, count5.b, count5.sc),
                       })
                     }
                     id="icon4"
@@ -826,35 +879,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count5.btn === 0 ? (
+                  {!count5.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count5.sc} x {count5.bill} ={" "}
+                      {count5.sc} x {count5.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count5.total}
+                        {count5.total * count5.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count5.btn }}
-                    onClick={() =>
-                      setCount5({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count5.sc ? (
+                    <button
+                      style={{ opacity: count5.btn }}
+                      onClick={() =>
+                        setCount5({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end5 */}
@@ -871,28 +928,32 @@ const CreateOrder = () => {
                     </div>
                   </div>
                 </td>
+
                 <td>
                   <input
                     className="qunatity"
-                    onChange={(e) =>
-                      setCount6({ ...count6, sc: e.target.value })
-                    }
-                    type="text"
+                    onChange={(e) => {
+                      setCount6({ ...count6, sc: e.target.value });
+                    }}
+                    type="number"
+                    min="0"
                     value={count6.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count6.sc &&
                       setCount6({
                         ...count6,
-                        m: true,
+                        m: !count6.m,
                         btn: 1,
                         bill: count6.bill + 1 * 5,
-                        total: (count6.bill + 5) * count6.sc,
+                        total: rowTotal(count6.total, count6.m, count6.sc),
                       })
                     }
                     id="icon1"
@@ -903,12 +964,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count6.sc &&
                       setCount6({
                         ...count6,
-                        i: true,
+                        i: !count6.i,
                         btn: 1,
                         bill: count6.bill + 1 * 5,
-                        total: (count6.bill + 5) * count6.sc,
+                        total: rowTotal(count6.total, count6.i, count6.sc),
                       })
                     }
                     id="icon2"
@@ -919,12 +981,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count6.sc &&
                       setCount6({
                         ...count6,
-                        t: true,
+                        t: !count6.t,
                         btn: 1,
                         bill: count6.bill + 1 * 5,
-                        total: (count6.bill + 5) * count6.sc,
+                        total: rowTotal(count6.total, count6.t, count6.sc),
                       })
                     }
                     id="icon3"
@@ -935,12 +998,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count6.sc &&
                       setCount6({
                         ...count6,
-                        b: true,
+                        b: !count6.b,
                         btn: 1,
                         bill: count6.bill + 1 * 5,
-                        total: (count6.bill + 5) * count6.sc,
+                        total: rowTotal(count6.total, count6.b, count6.sc),
                       })
                     }
                     id="icon4"
@@ -948,35 +1012,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count6.btn === 0 ? (
+                  {!count6.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count6.sc} x {count6.bill} ={" "}
+                      {count6.sc} x {count6.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count6.total}
+                        {count6.total * count6.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count6.btn }}
-                    onClick={() =>
-                      setCount6({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count6.sc ? (
+                    <button
+                      style={{ opacity: count6.btn }}
+                      onClick={() =>
+                        setCount6({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end6 */}
@@ -993,28 +1061,32 @@ const CreateOrder = () => {
                     </div>
                   </div>
                 </td>
+
                 <td>
                   <input
                     className="qunatity"
-                    onChange={(e) =>
-                      setCount7({ ...count7, sc: e.target.value })
-                    }
-                    type="text"
+                    onChange={(e) => {
+                      setCount7({ ...count7, sc: e.target.value });
+                    }}
+                    type="number"
+                    min="0"
                     value={count7.sc}
                     maxlength="4"
                     size="2"
+                    placeholder="0"
                   />
                 </td>
                 <td>
                   <img
                     className="icon"
                     onClick={() =>
+                      count7.sc &&
                       setCount7({
                         ...count7,
-                        m: true,
+                        m: !count7.m,
                         btn: 1,
                         bill: count7.bill + 1 * 5,
-                        total: (count7.bill + 5) * count7.sc,
+                        total: rowTotal(count7.total, count7.m, count7.sc),
                       })
                     }
                     id="icon1"
@@ -1025,12 +1097,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count7.sc &&
                       setCount7({
                         ...count7,
-                        i: true,
+                        i: !count7.i,
                         btn: 1,
                         bill: count7.bill + 1 * 5,
-                        total: (count7.bill + 5) * count7.sc,
+                        total: rowTotal(count7.total, count7.i, count7.sc),
                       })
                     }
                     id="icon2"
@@ -1041,12 +1114,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count7.sc &&
                       setCount7({
                         ...count7,
-                        t: true,
+                        t: !count7.t,
                         btn: 1,
                         bill: count7.bill + 1 * 5,
-                        total: (count7.bill + 5) * count7.sc,
+                        total: rowTotal(count7.total, count7.t, count7.sc),
                       })
                     }
                     id="icon3"
@@ -1057,12 +1131,13 @@ const CreateOrder = () => {
                   <img
                     className="icon"
                     onClick={() =>
+                      count7.sc &&
                       setCount7({
                         ...count7,
-                        b: true,
+                        b: !count7.b,
                         btn: 1,
                         bill: count7.bill + 1 * 5,
-                        total: (count7.bill + 5) * count7.sc,
+                        total: rowTotal(count7.total, count7.b, count7.sc),
                       })
                     }
                     id="icon4"
@@ -1070,35 +1145,39 @@ const CreateOrder = () => {
                   />
                 </td>
                 <td>
-                  {count7.btn === 0 ? (
+                  {!count7.sc ? (
                     <span className="dash1">__</span>
                   ) : (
                     <span className="calculator1">
-                      {count7.sc} x {count7.bill} ={" "}
+                      {count7.sc} x {count7.total} ={" "}
                       <span style={{ fontSize: "20px", color: "#5861AE" }}>
-                        {count7.total}
+                        {count7.total * count7.sc}
                       </span>
                     </span>
                   )}
                 </td>
                 <td>
-                  <button
-                    style={{ opacity: count7.btn }}
-                    onClick={() =>
-                      setCount7({
-                        m: false,
-                        i: false,
-                        t: false,
-                        b: false,
-                        sc: 0,
-                        bill: 0,
-                        total: 0,
-                      })
-                    }
-                    className=""
-                  >
-                    Reset
-                  </button>
+                  {count7.sc ? (
+                    <button
+                      style={{ opacity: count7.btn }}
+                      onClick={() =>
+                        setCount7({
+                          m: false,
+                          i: false,
+                          t: false,
+                          b: false,
+                          sc: 0,
+                          bill: 0,
+                          total: 0,
+                        })
+                      }
+                      className="ressst"
+                    >
+                      Reset
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
               {/* end7 */}

@@ -68,7 +68,7 @@ router.post(
           password: hash,
         });
         res.status(201).json({
-          satatus: "success",
+          status: "success",
           users,
         });
       });

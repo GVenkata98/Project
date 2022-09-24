@@ -34,7 +34,6 @@ const Login = () => {
     const incomingdata = await axios
       .post("http://localhost:8080/login", logindata)
       .then((response) => setResponse(response));
-    console.log(response);
     console.log(response.data.token);
     localStorage.setItem("token", response.data.token);
     navigate("/createorders");

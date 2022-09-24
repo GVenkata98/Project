@@ -5,7 +5,7 @@ import Endfooter from "./FOOTER/Endfooter";
 import Scheme from "./Scheme";
 import "./Body.css";
 import { useNavigate, Link } from "react-router-dom";
-
+import axios from "axios";
 function Register() {
   const navigate = useNavigate();
   const [form, setform] = useState("");
@@ -14,28 +14,36 @@ function Register() {
   const handlecheck = () => {
     updatedcheck(!check);
   };
-  const submitData = (e) => {
+  const submitData = async (e) => {
     e.preventDefault();
     console.log(check);
     if (!check) {
       return alert("accept terms and conditions");
     }
 
-    console.log(form);
-    fetch("http://localhost:8080/register", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    })
-      .then((data) => data.json())
-      .then((response) => setResponse(response));
-    console.log(response);
-    console.log(response.status);
-    // if (response.status != "failed") {
-    //   navigate("/");
+    // console.log(form);
+    await axios
+      .post(
+        "http://localhost:8080/register",
+        form
+        // method: "POST",
+        // headers: {
+        //   Accept: "application/json",
+        //   "Content-Type": "application/json",
+        // },
+        // body: form,
+      )
+      // .then((data) => data.json())
+      .then((response) => setResponse(response))
+      .catch((response) => setResponse(response));
+    console.log(response.response.data.emailmessage);
+    console.log("hello");
+    if (response.status == 201) {
+      alert("registered succesfully");
+      navigate("/");
+    }
+    // } else {
+    //   alert("something went wrong ");
     // }
   };
   console.log(response);
@@ -94,7 +102,7 @@ function Register() {
                       marginLeft: "170px",
                     }}
                   >
-                    {response.numbermessage}
+                    {response.response.data.numbermessage}
                   </p>
 
                   <br />
@@ -138,7 +146,7 @@ function Register() {
                       marginLeft: "200px",
                     }}
                   >
-                    {response.emailmessage}
+                    {response.response.data.emailmessage}
                   </p>
                   <br />
                   <label className="registerlabel">State</label>
