@@ -2,7 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const secret = "SUCCESS";
 const app = express();
-app.use(cors());
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(express.json());

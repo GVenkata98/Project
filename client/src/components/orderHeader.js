@@ -41,7 +41,7 @@ const OrderHeader = () => {
           <option>User Name</option>
           <option ><button onClick={logout}>Log Out</button></option>
         </select> */}
-        <span>User Name</span> 
+        <span>{localStorage.getItem("name")}</span> 
         <Link to={"/"}>
           <span className="logout">             
             <button onClick={logout}>Log Out</button>

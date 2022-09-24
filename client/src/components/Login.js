@@ -5,10 +5,11 @@ import Header from "./Header";
 import Footer from "./FOOTER/footer";
 import Endfooter from "./FOOTER/Endfooter";
 import Scheme from "./Scheme";
+import Jumporders from "../Jumporders";
 import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState(null);
   const [logindata, updatedlogindata] = useState("");
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -26,19 +27,25 @@ const Login = () => {
     // console.log(response, 12334);
     // console.log(response.token);
     // localStorage.setItem("token", response.token);
-
     // navigate("/createorders");
     // if (response.status != "failed") {
     //   navigate("/");
     // }
-    const incomingdata = await axios
-      .post("http://localhost:8080/login", logindata)
-      .then((response) => setResponse(response));
-    console.log(response.data.token);
-    localStorage.setItem("token", response.data.token);
+    const incomingdata = await axios.post(
+      "https://git.heroku.com/laundrycart1g.git/login",
+      logindata
+    );
+    console.log(incomingdata);
+    if (incomingdata.data.status == "failed") {
+      updatedlogindata({ ...logindata, password: "", userdetails: "" });
+      return alert(incomingdata.data.message);
+    }
+    // console.log(response.data.token)
+    < Jumporders incomingdata />
+    localStorage.setItem("token", incomingdata.data.token);
+    localStorage.setItem("name", incomingdata.data.data.name);
     navigate("/order");
   };
-
   return (
     <div>
       <Header />
@@ -65,6 +72,7 @@ const Login = () => {
                 <input
                   name="userdetails"
                   required
+                  value={logindata.userdetails}
                   onChange={(e) =>
                     updatedlogindata({
                       ...logindata,
@@ -89,6 +97,7 @@ const Login = () => {
                   type="password"
                   name="password"
                   required
+                  value={logindata.password}
                   onChange={(e) =>
                     updatedlogindata({ ...logindata, password: e.target.value })
                   }
@@ -118,12 +127,10 @@ const Login = () => {
           </div>
         </div>
         <Scheme />
-
         <Footer />
         <Endfooter />
       </div>
     </div>
   );
 };
-
 export default Login;

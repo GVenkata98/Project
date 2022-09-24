@@ -206,7 +206,7 @@ const CreateOrder = () => {
 
     console.log(gSenddata, "g send data");
 
-    const res = await fetch("http://localhost:8080/orders", {
+    const res = await fetch("https://git.heroku.com/laundrycart1g.git/orders", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -234,7 +234,7 @@ const CreateOrder = () => {
     return tempTotal;
   };
 
-  console.log("afd", count3.sc);
+  
   return (
     <>
       <OrderHeader />
@@ -246,7 +246,8 @@ const CreateOrder = () => {
         <div className="ordercomponent" style={{backgroundColor:"white"}}>
           <div className="searchBox1">
             <h3 className="nameoftitle">Create order</h3>
-            <input className="searchEngine" type="text" placeholder="search" />
+            <i className="fa fa-search" alt="icon" />
+            <input type="search" className="input"></input>
           </div>
           <div className="ccc">
             <table className="table tableprv">
@@ -273,7 +274,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">Shirt</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                      A good laundry room with storage can make life easier
                       </p>
                     </div>
                   </div>
@@ -405,7 +406,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">TShirt</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                        Laundry is the real Neverending Story.
                       </p>
                     </div>
                   </div>
@@ -538,7 +539,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">Trousers</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                        A good laundry room with storage can make life easier
                       </p>
                     </div>
                   </div>
@@ -670,7 +671,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">jeans</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                      Laundry is the real Neverending Story.
                       </p>
                     </div>
                   </div>
@@ -802,7 +803,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">Boxer</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                        A good laundry room with storage can make life easier
                       </p>
                     </div>
                   </div>
@@ -935,7 +936,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">joggers</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                        Laundry is the real Neverending Story.
                       </p>
                     </div>
                   </div>
@@ -1068,7 +1069,7 @@ const CreateOrder = () => {
                     <div className="CnameOf">
                       <h6 className="">Others</h6>
                       <p className="">
-                        Lorem Ipsum is simply dummy text of the
+                      A good laundry room with storage can make life easier
                       </p>
                     </div>
                   </div>

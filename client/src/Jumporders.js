@@ -6,11 +6,15 @@ import axios from "axios";
 import home from "./images/home.svg";
 import list from "./images/list.svg";
 import more from "./images/more.svg";
-import Dp from "./images/profilepic.jpg"
-const Jumporders = () => {
+import Dp from "./images/profilepic.jpg";
+import procced from "./order-list"
+const Jumporders = (props) => {
   const currToken = localStorage.getItem("token");
   const [data , setData] = useState("");
   const [name , setName] = useState("");
+  const [length , setlength] = useState("");
+  console.log(props.data , "1224585dasd");
+  // const [response , setResponse] = useState("");
   // axios
   //   .get("http://localhost:8080/orders", {
   //     headers: {
@@ -21,17 +25,17 @@ const Jumporders = () => {
   // console.log(response);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/orders`, {
+      .get(`https://git.heroku.com/laundrycart1g.git/orders`, {
         headers: {
           Authorization: "test " + currToken,
         },
       })
       .then((res) => {
         setData(res.data.orders);
-        // console.log(res.data.orders);
+        console.log(res.data.orders);
         // console.log(res.data.orders[3].washtype);
       });
-  }, []);
+  }, [localStorage.getItem("change")]);
   // useEffect(() =>{
   //   axios
   //   .get(`http://localhost:8080/`, {
@@ -63,7 +67,7 @@ const Jumporders = () => {
               <option>User Name</option>
               <option ><button onClick={logout}>Log Out</button></option>
             </select> */}
-            <span>User Name</span> 
+            <span>{localStorage.getItem("name")}</span> 
             <Link to={"/"}>
               <span className="logout">             
                 <button onClick={logout}>Log Out</button>

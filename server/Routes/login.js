@@ -6,6 +6,9 @@ const secret = "SUCCESS";
 const app = express();
 app.use(express.json());
 const bcrypt = require("bcrypt");
+router.get("/welcome" , async(req, res) =>{
+  res.json({data:"hello World"})
+})
 router.post("/", async (req, res) => {
   try {
     const { userdetails, password } = req.body;

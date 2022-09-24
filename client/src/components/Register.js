@@ -20,25 +20,34 @@ function Register() {
     if (!check) {
       return alert("accept terms and conditions");
     }
-
     // console.log(form);
-    await axios
-      .post(
-        "http://localhost:8080/register",
-        form
-        // method: "POST",
-        // headers: {
-        //   Accept: "application/json",
-        //   "Content-Type": "application/json",
-        // },
-        // body: form,
-      )
-      // .then((data) => data.json())
-      .then((response) => setResponse(response))
-      .catch((response) => setResponse(response));
-    // console.log(response.response.data.emailmessage);
-    // console.log("hello");
-    if (response.status == 201) {
+    const datain = await axios.post(
+      "https://git.heroku.com/laundrycart1g.git/register",
+      form
+      // method: "POST",
+      // headers: {
+      //   Accept: "application/json",
+      //   "Content-Type": "application/json",
+      // },
+      // body: form,
+    );
+    // .then((data) => data.json())
+    // .then((response) => setResponse(response))
+    // .catch((response) => setResponse(response));
+    if (datain.data.status == "failed") {
+      setform({
+        ...form,
+        name: "",
+        phonenumber: "",
+        email: "",
+        address: "",
+        password: "",
+        pincode: "",
+        state: "",
+        district: "",
+      });
+      return alert(datain.data.message);
+    } else {
       alert("registered succesfully");
       navigate("/");
     }
@@ -46,7 +55,6 @@ function Register() {
     //   alert("something went wrong ");
     // }
   };
-  console.log(response);
   return (
     <div className="secondregisterpage">
       <Header />
@@ -80,15 +88,15 @@ function Register() {
                     type="text"
                     name="name"
                     required
+                    value={form.name}
                     onChange={(e) => setform({ ...form, name: e.target.value })}
                   />
-
                   <br />
                   <label className="registerlabel">Phone</label>
                   <br />
-
                   <input
                     name="phonenumber"
+                    value={form.phonenumber}
                     required
                     onChange={(e) =>
                       setform({ ...form, phonenumber: e.target.value })
@@ -104,7 +112,6 @@ function Register() {
                   >
                     {/* {response.response.data.numbermessage} */}
                   </p>
-
                   <br />
                   <label className="registerlabel">District</label>
                   <br />
@@ -112,6 +119,7 @@ function Register() {
                     type="text"
                     name="district"
                     required
+                    value={form.district}
                     onChange={(e) =>
                       setform({ ...form, district: e.target.value })
                     }
@@ -121,6 +129,7 @@ function Register() {
                   <br />
                   <input
                     name="pincode"
+                    value={form.pincode}
                     required
                     onChange={(e) =>
                       setform({ ...form, pincode: e.target.value })
@@ -133,6 +142,7 @@ function Register() {
                   <input
                     type="email"
                     name="email"
+                    value={form.email}
                     required
                     onChange={(e) =>
                       setform({ ...form, email: e.target.value })
@@ -155,6 +165,7 @@ function Register() {
                     type="text"
                     name="state"
                     required
+                    value={form.state}
                     onChange={(e) =>
                       setform({ ...form, state: e.target.value })
                     }
@@ -166,6 +177,7 @@ function Register() {
                     type="text"
                     name="address"
                     required
+                    value={form.address}
                     onChange={(e) =>
                       setform({ ...form, address: e.target.value })
                     }
@@ -176,6 +188,7 @@ function Register() {
                   <input
                     type="password"
                     name="password"
+                    value={form.password}
                     required
                     onChange={(e) =>
                       setform({ ...form, password: e.target.value })

@@ -80,16 +80,16 @@ export default function SumarryPage({
         <table className="table table-borderless">
           <thead>
             <tr>
-              <th scope="col">store Location</th>
-              <th scope="col">Store Address</th>
-              <th scope="col">Phone</th>
+              <th scope="col" style={{color:"black"}}>store Location</th>
+              <th scope="col" style={{color:"black"}}>Store Address</th>
+              <th scope="col" style={{color:"black"}}>Phone</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Hydrabad</td>
-              <td>Near Charminar</td>
-              <td>987654321</td>
+              <td>Vizag</td>
+              <td>Jp Nagar</td>
+              <td>9849098490</td>
             </tr>
           </tbody>
         </table>
