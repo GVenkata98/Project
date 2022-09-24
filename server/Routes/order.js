@@ -13,6 +13,14 @@ router.get("/", async (req, res) => {
     orders,
   });
 });
+router.get("/:id" , async (req, res) =>{
+  const vieworders = await storeorder.find({_id:req.params.id})
+
+  res.status(200).json({
+    status : "Success" ,
+    vieworders
+  }) ;
+});
 
 router.post("/", async (req, res) => {
   try {

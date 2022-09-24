@@ -37,7 +37,7 @@ const Login = () => {
     console.log(response);
     console.log(response.data.token);
     localStorage.setItem("token", response.data.token);
-    navigate("/createorders");
+    navigate("/order");
   };
 
   return (
