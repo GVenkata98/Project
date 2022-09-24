@@ -10,7 +10,6 @@ const Verticalnav = () => {
     <div className="vnav">
       <span>
         <img className="vnavicon" src={home} alt="profilepic" />
-        cd
       </span>
       <span>
         <img className="vnavicon" src={more} alt="profilepic" />
@@ -19,6 +18,13 @@ const Verticalnav = () => {
         <img className="vnavicon" src={list} alt="profilepic" />
       </span>
     </div>
+    // <div className="sidebar">
+    //     <ui className="sidebar-ui">
+    //       <li className="icons home"><img src={home} alt="dp" /></li>
+    //       <li className="icons more"><img src={more} alt="dp" /></li>
+    //       <li className="icons list"><img src={list} alt="dp" /></li>
+    //     </ui>
+    // </div> 
   );
 };
 

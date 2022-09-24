@@ -2,6 +2,7 @@ import react from "react";
 import "./orderHeader.css";
 import Profilepic from "../images/profilepic.png";
 import { Link } from "react-router-dom";
+import Dp from "../images/profilepic.jpg"
 
 const OrderHeader = () => {
   const logout = (e)=>{
@@ -35,7 +36,7 @@ const OrderHeader = () => {
       <li className="light-text header-nav">pricing</li>
       <li className="light-text header-nav">career</li>
       <li className="header-nav li">
-        <span><img src={'/img/more.png'} alt="dp" /></span>
+        <span><img src={Dp} alt="dp" /></span>
         {/* <select className="logout-option">
           <option>User Name</option>
           <option ><button onClick={logout}>Log Out</button></option>

@@ -73,7 +73,6 @@ const Jumporders = () => {
         </ui>
       </div>
 
-      
       <div className="sidebar">
         <ui className="sidebar-ui">
           <li className="icons home"><img src={home} alt="dp" /></li>

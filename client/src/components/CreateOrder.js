@@ -243,7 +243,7 @@ const CreateOrder = () => {
           <Verticalnav />
         </div>
 
-        <div className="ordercomponent">
+        <div className="ordercomponent" style={{backgroundColor:"white"}}>
           <div className="searchBox1">
             <h3 className="nameoftitle">Create order</h3>
             <input className="searchEngine" type="text" placeholder="search" />
